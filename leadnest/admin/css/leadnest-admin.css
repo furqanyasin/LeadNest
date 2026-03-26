@@ -391,10 +391,12 @@
 .ln-pagination-info { font-size: 12px; color: #94a3b8; margin-left: 8px; }
 
 /* ── Modal ───────────────────────────────────────────── */
-.ln-modal { position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center; }
-.ln-modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.5); }
+.ln-modal { position: fixed; inset: 0; z-index: 99999; align-items: center; justify-content: center; }
+.ln-modal[style*="block"] { display: flex !important; }
+.ln-modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.5); z-index: 1; }
 .ln-modal-box {
     position: relative;
+    z-index: 2;
     background: #fff;
     border-radius: 10px;
     width: 90%;

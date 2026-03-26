@@ -225,7 +225,7 @@
     } );
 
     function openChatModal( sessionId ) {
-        $( '#ln-chat-modal' ).show();
+        $( '#ln-chat-modal' ).css( 'display', 'flex' );
         $( '#ln-modal-body' ).html( '<div class="ln-chat-loading">Loading…</div>' );
 
         $.post( ajax, { action: 'leadnest_get_session_chats', nonce: nonce, session_id: sessionId } )
@@ -276,6 +276,16 @@
                     alert( r.data.message || 'Error.' );
                 }
             } );
+    } );
+
+    // Export sessions CSV
+    $( '#ln-export-sessions-btn' ).on( 'click', function () {
+        var form = $( '<form method="post" action="' + ajax + '">' )
+            .append( $( '<input>' ).attr( { type: 'hidden', name: 'action', value: 'leadnest_export_sessions' } ) )
+            .append( $( '<input>' ).attr( { type: 'hidden', name: 'nonce',  value: nonce } ) )
+            .appendTo( 'body' );
+        form.submit();
+        form.remove();
     } );
 
     // Select all checkbox

@@ -7,11 +7,11 @@ $options = LeadNest_DB::get_options();
 $provider = $options['ai_provider'] ?? 'anthropic';
 
 $anthropic_models = array(
+    'claude-sonnet-4-6'            => 'Claude Sonnet 4.6 (Recommended)',
     'claude-opus-4-6'              => 'Claude Opus 4.6 (Most powerful)',
-    'claude-sonnet-4-6'            => 'Claude Sonnet 4.6 (Fast + capable)',
-    'claude-haiku-4-5-20251001'    => 'Claude Haiku 4.5 (Fastest)',
-    'claude-3-5-sonnet-20241022'   => 'Claude 3.5 Sonnet',
-    'claude-3-5-haiku-20241022'    => 'Claude 3.5 Haiku (Economical)',
+    'claude-haiku-4-5-20251001'    => 'Claude Haiku 4.5 (Fastest + cheapest)',
+    'claude-3-5-sonnet-20241022'   => 'Claude 3.5 Sonnet (Legacy)',
+    'claude-3-5-haiku-20241022'    => 'Claude 3.5 Haiku (Legacy)',
 );
 
 $openai_models = array(

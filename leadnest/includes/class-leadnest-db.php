@@ -204,7 +204,7 @@ class LeadNest_DB {
             'ai_provider'            => 'anthropic',
             'api_key_anthropic'      => '',
             'api_key_openai'         => '',
-            'model_anthropic'        => 'claude-3-5-haiku-20241022',
+            'model_anthropic'        => 'claude-haiku-4-5-20251001',
             'model_openai'           => 'gpt-4o-mini',
             'system_prompt'          => 'You are a helpful AI assistant for this website. Your goal is to help visitors find information, answer questions, and capture their contact details if they are interested in our services. Be friendly, concise, and professional. If you cannot answer a question, say so politely and offer to connect them with a human representative.',
             'bot_name'               => 'LeadNest',

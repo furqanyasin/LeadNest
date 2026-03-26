@@ -1100,7 +1100,7 @@ class LeadNest_API {
      */
     private function call_anthropic( $options, $system_prompt, $messages ) {
         $api_key = isset( $options['api_key_anthropic'] ) ? $options['api_key_anthropic'] : '';
-        $model   = isset( $options['model_anthropic'] ) ? $options['model_anthropic'] : 'claude-3-5-haiku-20241022';
+        $model   = isset( $options['model_anthropic'] ) ? $options['model_anthropic'] : 'claude-haiku-4-5-20251001';
 
         if ( empty( $api_key ) ) {
             return new WP_Error( 'no_api_key', 'Anthropic API key is not configured.' );
@@ -1141,9 +1141,8 @@ class LeadNest_API {
                 'timeout' => 60,
                 'headers' => array(
                     'Content-Type'      => 'application/json',
-                    'anthropic-version' => '2023-06-01',
+                    'anthropic-version' => '2024-10-22',
                     'x-api-key'         => $api_key,
-                    'anthropic-beta'    => 'prompt-caching-2024-07-31',
                 ),
                 'body'    => $body,
             )

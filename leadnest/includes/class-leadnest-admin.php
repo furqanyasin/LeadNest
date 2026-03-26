@@ -33,6 +33,7 @@ class LeadNest_Admin {
         add_action( 'wp_ajax_leadnest_save_availability',     array( $this, 'ajax_save_availability' ) );
         add_action( 'wp_ajax_leadnest_update_booking',        array( $this, 'ajax_update_booking' ) );
         add_action( 'wp_ajax_leadnest_delete_booking',        array( $this, 'ajax_delete_booking' ) );
+        add_action( 'wp_ajax_leadnest_export_sessions',     array( $this, 'ajax_export_sessions' ) );
         add_action( 'wp_ajax_leadnest_save_channel_settings', array( $this, 'ajax_save_channel_settings' ) );
         add_action( 'wp_ajax_leadnest_save_live_agent',       array( $this, 'ajax_save_live_agent' ) );
         add_action( 'wp_ajax_leadnest_save_gcal_settings',    array( $this, 'ajax_save_gcal_settings' ) );
@@ -348,7 +349,7 @@ class LeadNest_Admin {
         $options['ai_provider']          = sanitize_text_field( wp_unslash( $_POST['ai_provider'] ?? 'anthropic' ) );
         $options['api_key_anthropic']    = sanitize_text_field( wp_unslash( $_POST['api_key_anthropic'] ?? '' ) );
         $options['api_key_openai']       = sanitize_text_field( wp_unslash( $_POST['api_key_openai'] ?? '' ) );
-        $options['model_anthropic']      = sanitize_text_field( wp_unslash( $_POST['model_anthropic'] ?? 'claude-3-5-haiku-20241022' ) );
+        $options['model_anthropic']      = sanitize_text_field( wp_unslash( $_POST['model_anthropic'] ?? 'claude-haiku-4-5-20251001' ) );
         $options['model_openai']         = sanitize_text_field( wp_unslash( $_POST['model_openai'] ?? 'gpt-4o-mini' ) );
         $options['system_prompt']        = sanitize_textarea_field( wp_unslash( $_POST['system_prompt'] ?? '' ) );
         $options['lead_capture_enabled'] = ! empty( $_POST['lead_capture_enabled'] );
@@ -470,6 +471,44 @@ class LeadNest_Admin {
                 $lead->status,
                 $lead->notes,
                 $lead->created_at,
+            ) );
+        }
+
+        fclose( $output ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+        exit;
+    }
+
+    public function ajax_export_sessions() {
+        $this->verify_nonce();
+        global $wpdb;
+
+        $sessions = $wpdb->get_results(
+            "SELECT s.*,
+                    (SELECT COUNT(*) FROM {$wpdb->prefix}leadnest_chats c WHERE c.session_id = s.id) as msg_count
+             FROM {$wpdb->prefix}leadnest_sessions s
+             ORDER BY s.created_at DESC"
+        );
+
+        header( 'Content-Type: text/csv; charset=utf-8' );
+        header( 'Content-Disposition: attachment; filename="leadnest-sessions-' . gmdate( 'Y-m-d' ) . '.csv"' );
+
+        $output = fopen( 'php://output', 'w' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
+        fputcsv( $output, array( 'ID', 'Session Token', 'Site Key', 'IP', 'Country', 'City', 'Device', 'Browser', 'Page URL', 'Messages', 'Live Agent', 'Date' ) );
+
+        foreach ( $sessions as $s ) {
+            fputcsv( $output, array(
+                $s->id,
+                $s->session_token,
+                $s->site_key,
+                $s->ip,
+                $s->country,
+                $s->city,
+                $s->device,
+                $s->browser,
+                $s->page_url,
+                $s->msg_count,
+                $s->live_agent ? 'Yes' : 'No',
+                $s->created_at,
             ) );
         }
 
