@@ -121,12 +121,12 @@ $total_pages = (int) ceil( $total / $per_page );
                                 <td><?php echo esc_html( $session->msg_count ); ?></td>
                                 <td><?php echo esc_html( wp_date( 'M j, Y g:i a', strtotime( $session->created_at ) ) ); ?></td>
                                 <td class="ln-table-actions">
-                                    <button class="button button-small ln-view-chat-btn"
+                                    <button type="button" class="button button-small ln-view-chat-btn"
                                             data-session-id="<?php echo esc_attr( $session->id ); ?>"
                                             data-token="<?php echo esc_attr( $session->session_token ); ?>">
                                         <?php esc_html_e( 'View', 'leadnest' ); ?>
                                     </button>
-                                    <button class="button button-small ln-delete-session-btn"
+                                    <button type="button" class="button button-small ln-delete-session-btn"
                                             data-session-id="<?php echo esc_attr( $session->id ); ?>">
                                         <?php esc_html_e( 'Delete', 'leadnest' ); ?>
                                     </button>

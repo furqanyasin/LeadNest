@@ -1141,7 +1141,7 @@ class LeadNest_API {
                 'timeout' => 60,
                 'headers' => array(
                     'Content-Type'      => 'application/json',
-                    'anthropic-version' => '2024-10-22',
+                    'anthropic-version' => '2023-06-01',
                     'x-api-key'         => $api_key,
                 ),
                 'body'    => $body,
